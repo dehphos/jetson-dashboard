@@ -24,17 +24,28 @@
   "build": {
     "appId": "com.efebatman.abyssdashboard",
     "productName": "Abyss Dashboard",
-      "compression": "maximum",
+    "compression": "maximum",
+    "files": [
+      "**/*"
+    ],
+    "directories": {
+      "buildResources": "build"
+    },
     "win": {
       "icon": "build/icon.ico",
       "target": [
         {
           "target": "portable",
-          "arch": [
-            "x64"
-          ]
+          "arch": ["x64"]
         }
       ]
+    },
+    "mac": {
+      "icon": "build/icon.icns",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.utilities"
     }
-  }
-}
+}}
