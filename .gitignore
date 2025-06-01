@@ -1,0 +1,6 @@
+dist/win-unpacked/*
+dist/builder-debug.yml
+dist/builder-effective-config.yaml
+node_modules/*
+bak/
+dist/

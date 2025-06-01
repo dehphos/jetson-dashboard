@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jetson Data Dashboard</title>
+    <!-- Removed the <style> section to disable styling -->
+    <script defer src="renderer.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Jetson Data Dashboard</h1>
+    <div id="container">
+        <div id="data-output">Waiting for data...</div>
+        <div id="data-output2">Waiting for data...</div>
+        <div id="data-output3">Waiting for data...</div>
+        <div id="data-output4">Waiting for data...</div>
+        <div id="data-output5">Waiting for data...</div>
+        <div id="data-output6">Waiting for data...</div>
+        <div id="data-output7">Waiting for data...</div>
+        <!-- Placeholder for image -->
+        <img id="image" src="" alt="Image from Jetson" />
+    </div>
+    <div class="rectangle" id="rect"></div>
+    <script>
+        function updateAngle(angle) {
+            const rect = document.getElementById("rect");
+
+            rect.style.transform = `rotate(${angle + 90}deg)`; // Subtract 90° to correct orientation
+        }
+    </script>
+</body>
+</html>

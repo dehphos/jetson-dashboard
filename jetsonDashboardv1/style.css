@@ -1,0 +1,86 @@
+/* General Styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent scrolling */
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    background-color: #222;
+    color: white;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+}
+
+/* Title */
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* Data Container */
+#container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+    text-align: left;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    overflow: hidden; /* Prevent overflow */
+}
+
+/* Data Entries */
+#container div {
+    font-size: 16px;
+    margin: 5px 0;
+    padding: 5px;
+}
+
+/* Image */
+#image {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    max-width: 400px;   /* Set a maximum width */
+    height: auto;       /* Maintain aspect ratio */
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Rotating Rectangle with Arrow */
+.rectangle {
+    width: 100px;
+    height: 30px;
+    background-color: red;
+    position: fixed;
+    bottom: 50px;
+    right: 20px;
+    transform-origin: center center;
+    transform: rotate(0deg); /* Ensures it starts horizontally */
+    transition: transform 0.1s ease-in-out;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+}
+
+/* Arrow */
+.rectangle::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -15px;  /* Position the arrow to the right side of the rectangle */
+    width: 0;
+    height: 0;
+    border-left: 10px solid red; /* Arrow color same as the rectangle */
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    transform: translateY(-50%); /* Center the arrow vertically */
+}

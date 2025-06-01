@@ -1,0 +1,40 @@
+{
+  "name": "abyss",
+  "version": "3.4.0",
+  "main": "main.js",
+  "devDependencies": {
+    "electron": "^35.0.2",
+    "electron-builder": "^25.1.8"
+  },
+  "dependencies": {
+    "default-gateway": "^7.2.2",
+    "evilscan": "^1.9.1",
+    "node-fetch": "^2.7.0",
+    "pako": "^2.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron main.js"
+  },
+  "keywords": [],
+  "author": "Efe Batman",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "build": {
+    "appId": "com.efebatman.abyssdashboard",
+    "productName": "Abyss Dashboard",
+      "compression": "maximum",
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
+  }
+}

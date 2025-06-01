@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jetson Data Dashboard</title>
+    <script defer src="renderer.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Jetson Data Dashboard</h1>
+        <div id="connection-status" class="status-indicator scanning">Scanning...</div>
+    </header>
+    
+    <div class="dashboard-container">
+        <div class="data-panel">
+            <h2>Telemetry Data</h2>
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="data-label">Time:</div>
+                    <div id="data-output" class="data-value">Waiting for data...</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Tick Counter:</div>
+                    <div id="data-output2" class="data-value">Waiting for data...</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Local Time:</div>
+                    <div id="data-output3" class="data-value">Waiting for data...</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Angle:</div>
+                    <div id="data-output4" class="data-value">Waiting for data...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="data-panel">
+            <h2>Jetson Status</h2>
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="data-label">CPU1:</div>
+                    <div id="data-cpu1" class="data-value">Waiting for data...</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">CPU2:</div>
+                    <div id="data-cpu2" class="data-value">Waiting for data...</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">CPU3:</div>
+                    <div id="data-cpu3" class="data-value">Waiting for data...</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">CPU4:</div>
+                    <div id="data-cpu4" class="data-value">Waiting for data...</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">GPU:</div>
+                    <div id="data-gpu" class="data-value">Waiting for data...</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Temp:</div>
+                    <div id="data-temp" class="data-value">Waiting for data...</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Power:</div>
+                    <div id="data-pow" class="data-value">Waiting for data...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="visual-panel">
+            <div class="camera-feed">
+                <h3>Camera Feed</h3>
+                <img id="image" alt="Image from Jetson" />
+                <div id="fps-counter">0 FPS</div>
+            </div>
+            
+            <div class="angle-indicator">
+                <h3>Orientation</h3>
+                <div class="angle-display">
+                    <div class="compass">
+                        <div class="compass-marker north">N</div>
+                        <div class="compass-marker east">E</div>
+                        <div class="compass-marker south">S</div>
+                        <div class="compass-marker west">W</div>
+                        <div id="angle-value">0°</div>
+                        <div class="rectangle" id="rect"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let lastFrameTime = 0;
+        let frameCount = 0;
+        
+        function updateAngle(angle) {
+            const rect = document.getElementById("rect");
+            rect.style.transform = `rotate(${angle + 90}deg)`;
+            document.getElementById("angle-value").textContent = `${angle.toFixed(1)}°`;
+        }
+        
+        function updateFPS() {
+            const now = performance.now();
+            frameCount++;
+            
+            if (now - lastFrameTime >= 1000) {
+                document.getElementById("fps-counter").textContent = `${frameCount} FPS`;
+                frameCount = 0;
+                lastFrameTime = now;
+            }
+            
+            requestAnimationFrame(updateFPS);
+        }
+        
+        updateFPS();
+    </script>
+</body>
+</html>

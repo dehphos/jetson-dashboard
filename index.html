@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABYSS Veri Arayüzü</title>
+    <script defer src="renderer.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="chart.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Jetson Veri Arayüzü</h1>
+        <div id="connection-status" class="status-indicator scanning">Taranıyor...</div>    
+    </header>
+
+    <div class="dashboard-container">
+        <!-- Data panels section -->
+        <div class="left-panels">
+            <!-- Moved Telemetry Data to left panels -->
+            <div class="data-panel telemetry-data">
+                <h2>Telemetri Verileri</h2>
+                <div class="data-grid">
+                    <div class="data-item">
+                        <div class="data-label">Zaman:</div>
+                        <div id="data-output" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Tick sayacı:</div>
+                        <div id="data-output2" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Yerel Zaman:</div>
+                        <div id="data-output3" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Açı:</div>
+                        <div id="data-output4" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Veri 5</div>
+                        <div id="data-output5" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Veri 6</div>
+                        <div id="data-output6" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Veri 7</div>
+                        <div id="data-output7" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Veri 8</div>
+                        <div id="data-output8" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Veri 9</div>
+                        <div id="data-output9" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Camera feed in left panels -->
+            <div class="camera-feed">
+                <h3>Kamera Akışı</h3>
+                <img id="image" alt="Image from Jetson" />
+                <div id="fps-counter">0 FPS</div>
+            </div>
+
+            <div class="angle-indicator">
+                <h3>Yön</h3>
+                <div class="angle-display">
+                    <div class="compass">
+                        <div class="compass-marker north">N</div>
+                        <div class="compass-marker east">E</div>
+                        <div class="compass-marker south">S</div>
+                        <div class="compass-marker west">W</div>
+                        <div id="angle-value">0°</div>
+                        <div class="rectangle" id="rect"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visual panels section -->
+        <div class="right-panels">
+            <!-- Moved Jetson Status to right panels -->
+            <div class="data-panel jetson-status">
+                <h2>Jetson Durumu</h2>
+                <div class="data-grid">
+                    <div class="data-item">
+                        <div class="data-label">CPU1:</div>
+                        <div id="data-cpu1" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">CPU2:</div>
+                        <div id="data-cpu2" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">CPU3:</div>
+                        <div id="data-cpu3" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">CPU4:</div>
+                        <div id="data-cpu4" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">CPU4:</div>
+                        <div id="data-cpu5" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">CPU4:</div>
+                        <div id="data-cpu6" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">GPU:</div>
+                        <div id="data-gpu" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Sıcaklık:</div>
+                        <div id="data-temp" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Güç:</div>
+                        <div id="data-pow" class="data-value">Veri bekleniyor...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Graphs Panel -->
+            <div class="graphs-panel">
+                <h3>Performans Değerleri</h3>
+                <div class="graphs-container">
+                    <div class="graph-item">
+                        <div class="graph-label">İşlemci kullanımı</div>
+                        <div class="graph-container">
+                            <canvas id="cpu-graph" class="line-graph"></canvas>
+                        </div>
+                    </div>
+                    <div class="graph-item">
+                        <div class="graph-label">Grafik kartı kullanımı</div>
+                        <div class="graph-container">
+                            <canvas id="gpu-graph" class="line-graph"></canvas>
+                        </div>
+                    </div>
+                    <div class="graph-item">
+                        <div class="graph-label">Sıcaklık</div>
+                        <div class="graph-container">
+                            <canvas id="temp-graph" class="line-graph"></canvas>
+                        </div>
+                    </div>
+                    <div class="graph-item">
+                        <div class="graph-label">Güç Kullanımı</div>
+                        <div class="graph-container">
+                            <canvas id="power-graph" class="line-graph"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let lastFrameTime = 0;
+        let frameCount = 0;
+
+        function updateAngle(angle) {
+            const rect = document.getElementById("rect");
+            rect.style.transform = `rotate(${angle + 90}deg)`;
+            document.getElementById("angle-value").textContent = `${angle.toFixed(1)}°`;
+        }
+
+        function updateFPS() {
+            const now = performance.now();
+            frameCount++;
+
+            if (now - lastFrameTime >= 1000) {
+                document.getElementById("fps-counter").textContent = `${frameCount} FPS`;
+                frameCount = 0;
+                lastFrameTime = now;
+            }
+        }
+
+        updateFPS();
+    </script>
+</body>
+</html>
