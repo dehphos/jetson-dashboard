@@ -41,7 +41,7 @@ npm install
 Uygulamayı geliştirme modunda başlatmak için:
 
 ```bash
-npm start
+npm run start
 ```
 
 ## 🛠 Derleme
