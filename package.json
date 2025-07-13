@@ -1,6 +1,6 @@
 {
   "name": "abyss",
-  "version": "3.4.0",
+  "version": "3.4.1",
   "main": "main.js",
   "devDependencies": {
     "electron": "^35.0.2",
