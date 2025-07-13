@@ -197,6 +197,8 @@ window.electronAPI.onJetsonData((data) => {
     document.getElementById("data-output").textContent = data.epoch_time ? data.epoch_time : 'N/A';
     document.getElementById("data-output2").textContent = data.a ? `${data.a}` : 'N/A';
     document.getElementById("data-output3").textContent = data.curtime || 'N/A';
+    document.getElementById("data-output5").textContent = data.command || 'N/A';
+    document.getElementById("data-output6").textContent = data.sekils || 'N/A';
 
     // Update angle if available with proper formatting
     if (data.angle !== undefined) {
