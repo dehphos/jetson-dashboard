@@ -248,11 +248,8 @@ window.electronAPI.onJetsonData((data) => {
         
         imageStreamed = true;
 
-        // FPS takibi için sadece birinci kamerayı dinlememiz yeterlidir.
-        // Bu EventListener sadece ilk bağlantıda 1 kere eklenir. (Eski kodda sürekli ekleniyordu)
-        img1.addEventListener("load", () => {
-            framesReceived++;
-        });
+        startFPSMonitor("image1", "fps-cam1");
+        startFPSMonitor("image2", "fps-cam2");
     }
 });
 // Function to calculate and display FPS
@@ -355,3 +352,50 @@ window.addEventListener('DOMContentLoaded', () => {
     // Sağ panel içi yatay ayırıcı
     initResizer('resizer-stat-graph', 'panel-status', 'panel-graph', 'vertical');
 });
+
+// --- YENİ: İstemci Tarafı (Frontend) FPS Sayacı ---
+function startFPSMonitor(imgId, fpsDisplayId) {
+    const img = document.getElementById(imgId);
+    const fpsDisplay = document.getElementById(fpsDisplayId);
+    
+    // İşlemciyi yormamak için 16x16 piksellik minicik görünmez bir tuval (canvas) oluşturuyoruz
+    const canvas = document.createElement('canvas');
+    canvas.width = 16;
+    canvas.height = 16;
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    
+    let lastPixelSum = 0;
+    let framesReceived = 0;
+
+    // Her saniye ekrandaki yazıyı güncelle ve sayacı sıfırla
+    setInterval(() => {
+        fpsDisplay.textContent = `${framesReceived} FPS`;
+        framesReceived = 0;
+    }, 1000);
+
+    // Ekranın kendi yenilenme hızında (yaklaşık saniyede 60 kez) çalışacak kontrol döngüsü
+    function checkFrameUpdate() {
+        if (img.complete && img.naturalWidth > 0) {
+            // Görüntüyü o minicik alana çizdirip piksel renk verilerini çekiyoruz
+            ctx.drawImage(img, 0, 0, 16, 16);
+            const imgData = ctx.getImageData(0, 0, 16, 16).data;
+            
+            let currentPixelSum = 0;
+            // Piksellerin renk değerlerini toplayarak o kareye ait eşsiz bir "renk imzası" oluşturuyoruz
+            for (let i = 0; i < imgData.length; i += 4) {
+                currentPixelSum += imgData[i] + imgData[i+1] + imgData[i+2];
+            }
+
+            // Eğer kameranın yeni imzesi, bir önceki imzeyle aynı değilse yeni bir kare gelmiştir!
+            if (currentPixelSum !== lastPixelSum) {
+                framesReceived++;
+                lastPixelSum = currentPixelSum;
+            }
+        }
+        // Döngüyü tekrar çağır
+        requestAnimationFrame(checkFrameUpdate);
+    }
+    
+    // Sistemi başlat
+    checkFrameUpdate();
+}

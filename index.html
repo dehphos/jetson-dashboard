@@ -36,10 +36,15 @@
             <div class="camera-feed" id="panel-camera">
                 <h3>Kamera Akışı</h3>
                 <div class="camera-container">
-                    <img id="image1" alt="Stream 1" />
-                    <img id="image2" alt="Stream 2" />
+                    <div class="cam-wrapper">
+                        <img id="image1" alt="Stream 1" />
+                        <div id="fps-cam1" class="fps-counter">0 FPS</div>
+                    </div>
+                    <div class="cam-wrapper">
+                        <img id="image2" alt="Stream 2" />
+                        <div id="fps-cam2" class="fps-counter">0 FPS</div>
+                    </div>
                 </div>
-                <div id="fps-counter">0 FPS</div>
             </div>
 
             <div class="resizer-h" id="resizer-cam-angle"></div>
