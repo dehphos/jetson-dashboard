@@ -15,62 +15,36 @@
     </header>
 
     <div class="dashboard-container">
-        <!-- Data panels section -->
-        <div class="left-panels">
-            <!-- Moved Telemetry Data to left panels -->
-            <div class="data-panel telemetry-data">
+        <div class="left-panels" id="left-panel">
+            <div class="data-panel telemetry-data" id="panel-telemetry">
                 <h2>Telemetri Verileri</h2>
                 <div class="data-grid">
-                    <div class="data-item">
-                        <div class="data-label">Zaman:</div>
-                        <div id="data-output" class="data-value">Veri bekleniyor...</div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">Tick sayacı:</div>
-                        <div id="data-output2" class="data-value">Veri bekleniyor...</div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">Yerel Zaman:</div>
-                        <div id="data-output3" class="data-value">Veri bekleniyor...</div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">Açı:</div>
-                        <div id="data-output4" class="data-value">Veri bekleniyor...</div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">Komut</div>
-                        <div id="data-output5" class="data-value">Veri bekleniyor...</div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">Şekil</div>
-                        <div id="data-output6" class="data-value">Veri bekleniyor...</div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">Veri 7</div>
-                        <div id="data-output7" class="data-value">Veri bekleniyor...</div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">Veri 8</div>
-                        <div id="data-output8" class="data-value">Veri bekleniyor...</div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">Veri 9</div>
-                        <div id="data-output9" class="data-value">Veri bekleniyor...</div>
-                    </div>
+                    <div class="data-item"><div class="data-label">Zaman:</div><div id="data-output" class="data-value">Veri bekleniyor...</div></div>
+                    <div class="data-item"><div class="data-label">Tick sayacı:</div><div id="data-output2" class="data-value">Veri bekleniyor...</div></div>
+                    <div class="data-item"><div class="data-label">Yerel Zaman:</div><div id="data-output3" class="data-value">Veri bekleniyor...</div></div>
+                    <div class="data-item"><div class="data-label">Açı:</div><div id="data-output4" class="data-value">Veri bekleniyor...</div></div>
+                    <div class="data-item"><div class="data-label">Komut:</div><div id="data-output5" class="data-value">Veri bekleniyor...</div></div>
+                    <div class="data-item"><div class="data-label">Şekil:</div><div id="data-output6" class="data-value">Veri bekleniyor...</div></div>
+                    <div class="data-item"><div class="data-label">Veri 7:</div><div id="data-output7" class="data-value">Veri bekleniyor...</div></div>
+                    <div class="data-item"><div class="data-label">Veri 8:</div><div id="data-output8" class="data-value">Veri bekleniyor...</div></div>
+                    <div class="data-item"><div class="data-label">Veri 9:</div><div id="data-output9" class="data-value">Veri bekleniyor...</div></div>
                 </div>
             </div>
 
-            <!-- Camera feed in left panels -->
-            <div class="camera-feed">
+            <div class="resizer-h" id="resizer-tl-cam"></div>
+
+            <div class="camera-feed" id="panel-camera">
                 <h3>Kamera Akışı</h3>
                 <div class="camera-container">
-                    <img id="image1" alt="Ön kamera" />
-                    <img id="image2" alt="Alt kamera" />
+                    <img id="image1" alt="Stream 1" />
+                    <img id="image2" alt="Stream 2" />
                 </div>
                 <div id="fps-counter">0 FPS</div>
             </div>
 
-            <div class="angle-indicator">
+            <div class="resizer-h" id="resizer-cam-angle"></div>
+
+            <div class="angle-indicator" id="panel-angle">
                 <h3>Yön</h3>
                 <div class="angle-display">
                     <div class="compass">
@@ -85,79 +59,33 @@
             </div>
         </div>
 
-        <!-- Visual panels section -->
-        <div class="right-panels">
-            <!-- Moved Jetson Status to right panels -->
-            <div class="data-panel jetson-status">
+        <div class="resizer-v" id="resizer-main"></div>
+
+        <div class="right-panels" id="right-panel">
+            <div class="data-panel jetson-status" id="panel-status">
                 <h2>Jetson Durumu</h2>
                 <div class="data-grid">
-                    <div class="data-item">
-                        <div class="data-label">CPU1:</div>
-                        <div id="data-cpu1" class="data-value">Veri bekleniyor...</div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">CPU2:</div>
-                        <div id="data-cpu2" class="data-value">Veri bekleniyor...</div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">CPU3:</div>
-                        <div id="data-cpu3" class="data-value">Veri bekleniyor...</div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">CPU4:</div>
-                        <div id="data-cpu4" class="data-value">Veri bekleniyor...</div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">CPU4:</div>
-                        <div id="data-cpu5" class="data-value">Veri bekleniyor...</div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">CPU4:</div>
-                        <div id="data-cpu6" class="data-value">Veri bekleniyor...</div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">GPU:</div>
-                        <div id="data-gpu" class="data-value">Veri bekleniyor...</div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">Sıcaklık:</div>
-                        <div id="data-temp" class="data-value">Veri bekleniyor...</div>
-                    </div>
-                    <div class="data-item">
-                        <div class="data-label">Güç:</div>
-                        <div id="data-pow" class="data-value">Veri bekleniyor...</div>
-                    </div>
+                    <div class="data-item"><div class="data-label">CPU1:</div><div id="data-cpu1" class="data-value">Veri bekleniyor...</div></div>
+                    <div class="data-item"><div class="data-label">CPU2:</div><div id="data-cpu2" class="data-value">Veri bekleniyor...</div></div>
+                    <div class="data-item"><div class="data-label">CPU3:</div><div id="data-cpu3" class="data-value">Veri bekleniyor...</div></div>
+                    <div class="data-item"><div class="data-label">CPU4:</div><div id="data-cpu4" class="data-value">Veri bekleniyor...</div></div>
+                    <div class="data-item"><div class="data-label">CPU5:</div><div id="data-cpu5" class="data-value">Veri bekleniyor...</div></div>
+                    <div class="data-item"><div class="data-label">CPU6:</div><div id="data-cpu6" class="data-value">Veri bekleniyor...</div></div>
+                    <div class="data-item"><div class="data-label">GPU:</div><div id="data-gpu" class="data-value">Veri bekleniyor...</div></div>
+                    <div class="data-item"><div class="data-label">Sıcaklık:</div><div id="data-temp" class="data-value">Veri bekleniyor...</div></div>
+                    <div class="data-item"><div class="data-label">Güç:</div><div id="data-pow" class="data-value">Veri bekleniyor...</div></div>
                 </div>
             </div>
 
-            <!-- Graphs Panel -->
-            <div class="graphs-panel">
+            <div class="resizer-h" id="resizer-stat-graph"></div>
+
+            <div class="graphs-panel" id="panel-graph">
                 <h3>Performans Değerleri</h3>
                 <div class="graphs-container">
-                    <div class="graph-item">
-                        <div class="graph-label">İşlemci kullanımı</div>
-                        <div class="graph-container">
-                            <canvas id="cpu-graph" class="line-graph"></canvas>
-                        </div>
-                    </div>
-                    <div class="graph-item">
-                        <div class="graph-label">Grafik kartı kullanımı</div>
-                        <div class="graph-container">
-                            <canvas id="gpu-graph" class="line-graph"></canvas>
-                        </div>
-                    </div>
-                    <div class="graph-item">
-                        <div class="graph-label">Sıcaklık</div>
-                        <div class="graph-container">
-                            <canvas id="temp-graph" class="line-graph"></canvas>
-                        </div>
-                    </div>
-                    <div class="graph-item">
-                        <div class="graph-label">Güç Kullanımı</div>
-                        <div class="graph-container">
-                            <canvas id="power-graph" class="line-graph"></canvas>
-                        </div>
-                    </div>
+                    <div class="graph-item"><div class="graph-label">İşlemci kullanımı</div><div class="graph-container"><canvas id="cpu-graph" class="line-graph"></canvas></div></div>
+                    <div class="graph-item"><div class="graph-label">Grafik kartı kullanımı</div><div class="graph-container"><canvas id="gpu-graph" class="line-graph"></canvas></div></div>
+                    <div class="graph-item"><div class="graph-label">Sıcaklık</div><div class="graph-container"><canvas id="temp-graph" class="line-graph"></canvas></div></div>
+                    <div class="graph-item"><div class="graph-label">Güç Kullanımı</div><div class="graph-container"><canvas id="power-graph" class="line-graph"></canvas></div></div>
                 </div>
             </div>
         </div>

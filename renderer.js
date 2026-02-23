@@ -287,3 +287,71 @@ window.addEventListener('beforeunload', () => {
         clearInterval(connectionTimeout);
     }
 });
+// --- YENİ EKLENEN RESIZE (SÜRÜKLE BIRAK BOYUTLANDIRMA) MANTIĞI ---
+
+function initResizer(resizerId, prevPanelId, nextPanelId, direction) {
+    const resizer = document.getElementById(resizerId);
+    const prevPanel = document.getElementById(prevPanelId);
+    const nextPanel = document.getElementById(nextPanelId);
+    let startPos = 0, startPrevFlex = 0, startNextFlex = 0;
+
+    resizer.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        startPos = direction === 'horizontal' ? e.clientX : e.clientY;
+        
+        // Mevcut yüzdelik flex değerlerini hesapla
+        const parentSize = direction === 'horizontal' 
+            ? resizer.parentElement.getBoundingClientRect().width 
+            : resizer.parentElement.getBoundingClientRect().height;
+            
+        startPrevFlex = (prevPanel.getBoundingClientRect()[direction === 'horizontal' ? 'width' : 'height'] / parentSize) * 100;
+        startNextFlex = (nextPanel.getBoundingClientRect()[direction === 'horizontal' ? 'width' : 'height'] / parentSize) * 100;
+
+        resizer.classList.add('dragging');
+        document.body.style.cursor = direction === 'horizontal' ? 'col-resize' : 'row-resize';
+
+        const mouseMoveHandler = (e) => {
+            const currentPos = direction === 'horizontal' ? e.clientX : e.clientY;
+            const diff = currentPos - startPos;
+            const diffPercentage = (diff / parentSize) * 100;
+
+            let newPrevFlex = startPrevFlex + diffPercentage;
+            let newNextFlex = startNextFlex - diffPercentage;
+
+            // Panellerin tamamen kapanmasını engellemek için minimum %5 sınır
+            if (newPrevFlex > 5 && newNextFlex > 5) {
+                prevPanel.style.flex = `${newPrevFlex} 1 0%`;
+                nextPanel.style.flex = `${newNextFlex} 1 0%`;
+                
+                // Chart.js grafiklerinin boyut değişimine anında tepki vermesini sağla
+                // window.dispatchEvent(new Event('resize'));
+            }
+        };
+
+        const mouseUpHandler = () => {
+            document.removeEventListener('mousemove', mouseMoveHandler);
+            document.removeEventListener('mouseup', mouseUpHandler);
+            resizer.classList.remove('dragging');
+            document.body.style.cursor = 'default';
+            window.dispatchEvent(new Event('resize'));
+        };
+
+        document.addEventListener('mousemove', mouseMoveHandler);
+        document.addEventListener('mouseup', mouseUpHandler);
+    });
+}
+
+// DOM yüklendikten sonra Resizer'ları etkinleştiriyoruz
+window.addEventListener('DOMContentLoaded', () => {
+    // Mevcut kodunuz buradaydı (initializeCharts vs.)
+    
+    // Ana dikey ayırıcı (Sol / Sağ)
+    initResizer('resizer-main', 'left-panel', 'right-panel', 'horizontal');
+    
+    // Sol panel içi yatay ayırıcılar
+    initResizer('resizer-tl-cam', 'panel-telemetry', 'panel-camera', 'vertical');
+    initResizer('resizer-cam-angle', 'panel-camera', 'panel-angle', 'vertical');
+    
+    // Sağ panel içi yatay ayırıcı
+    initResizer('resizer-stat-graph', 'panel-status', 'panel-graph', 'vertical');
+});
