@@ -237,19 +237,23 @@ window.electronAPI.onJetsonData((data) => {
     document.getElementById("data-temp").textContent = dataCache.temp.toFixed(1) + '°C';
     document.getElementById("data-pow").textContent = (dataCache.pow / 1000).toFixed(2) + 'W';
 
-    // Update image if available
+// Update dual images if available
     if (!imageStreamed) {
-        const img = document.getElementById("image");
-        img.src = `http://${data.ip}:3169/stream`;
-        console.log(`Image source set to: http://${data.ip}:3169/stream`);
+        const img1 = document.getElementById("image1");
+        const img2 = document.getElementById("image2");
+        
+        img1.src = `http://${data.ip}:3169/stream`;
+        img2.src = `http://${data.ip}:3169/stream1`;
+        console.log(`Image sources set to stream and stream1`);
+        
         imageStreamed = true;
+
+        // FPS takibi için sadece birinci kamerayı dinlememiz yeterlidir.
+        // Bu EventListener sadece ilk bağlantıda 1 kere eklenir. (Eski kodda sürekli ekleniyordu)
+        img1.addEventListener("load", () => {
+            framesReceived++;
+        });
     }
-    const img = document.getElementById("image");
-    img.addEventListener("load", () => {
-    
-    framesReceived++;
-console.log(`Image loaded, frames received: ${framesReceived}`);    
-});     
 });
 // Function to calculate and display FPS
 function calculateFPS() {
