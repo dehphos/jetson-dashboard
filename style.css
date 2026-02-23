@@ -101,24 +101,35 @@ h3 {
     flex: 1;
     height: calc(100% - 50px); /* Adjusted height to account for header */
     overflow: hidden; /* Changed from auto to hidden */
+    gap: 0; /* Resize boşlukları ayırıcılar tarafından sağlanacak */
 }
 
-/* Left panel container */
-.left-panels {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    max-width: 35%;
-    overflow: hidden; /* Added to prevent overflow */
+/* Left & Right panel containers */
+.left-panels { 
+    display: flex; 
+    flex-direction: column; 
+    flex: 35 1 0%; 
+    max-width: none; 
+    min-width: 0; 
+    gap: 0; 
+    overflow: hidden;
 }
 
-/* Right panel container */
-.right-panels {
+.right-panels { 
+    display: flex; 
+    flex-direction: column; 
+    flex: 65 1 0%; 
+    max-width: none; 
+    min-width: 0; 
+    gap: 0; 
+    overflow: hidden;
+}
+
+/* Base Panel Styles */
+.data-panel, .angle-indicator {
     display: flex;
     flex-direction: column;
-    flex: 2;
-    max-width: 65%;
-    overflow: hidden; /* Added to prevent overflow */
+    overflow: hidden; 
 }
 
 .data-panel {
@@ -128,77 +139,117 @@ h3 {
     box-shadow: var(--panel-shadow);
 }
 
-.telemetry-data {
-    flex: 0.8;
-    min-height: 30%;
-    overflow: hidden; /* Added to prevent overflow */
-}
-
-.jetson-status {
-    flex: 0.8;
-    overflow: hidden; /* Added to prevent overflow */
-}
+/* Individual Panel Flex Values */
+.telemetry-data { flex: 30 1 0%; min-height: 0; margin: 0; }
+.jetson-status { flex: 30 1 0%; min-height: 0; margin: 0; }
+.camera-feed { flex: 50 1 0%; min-height: 0; margin: 0; }
+.angle-indicator { flex: 20 1 0%; min-height: 0; margin: 0; }
+.graphs-panel { flex: 70 1 0%; min-height: 0; margin: 0; }
 
 .camera-feed, .angle-indicator, .graphs-panel {
     background-color: var(--bg-panel);
     border-radius: var(--panel-radius);
     padding: 10px;
     box-shadow: var(--panel-shadow);
-    overflow: hidden; /* Added to prevent overflow */
+    overflow: hidden; 
 }
 
 .camera-feed {
     position: relative;
-    flex: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .graphs-panel {
-    flex: 2;
-    min-height: 55%;
     display: flex;
     flex-direction: column;
 }
 
 .graphs-container {
-    height: 90%; /* Increased from 50% to use more space */
+    height: 90%; 
     margin: 0 auto;
-    width: 95%; /* Increased from 50% to use more space */
+    width: 95%; 
 }
 
-.angle-indicator {
-    flex: 0.8;
+
+/* --- YENİ EKLENEN RESIZE (BOYUTLANDIRMA) AYIRICILARI --- */
+/* Dikey (Sağ-Sol) Ayırıcı */
+.resizer-v {
+    width: 10px;
+    cursor: col-resize;
+    background-color: transparent;
+    transition: background-color 0.2s;
+    z-index: 10;
+}
+.resizer-v:hover, .resizer-v.dragging {
+    background-color: rgba(52, 152, 219, 0.5); /* Accent color yarı saydam */
 }
 
-/* Data Grid */
+/* Yatay (Alt-Üst) Ayırıcı */
+.resizer-h {
+    height: 10px;
+    cursor: row-resize;
+    background-color: transparent;
+    transition: background-color 0.2s;
+    z-index: 10;
+}
+.resizer-h:hover, .resizer-h.dragging {
+    background-color: rgba(52, 152, 219, 0.5);
+}
+
+/* --- VERİ IZGARASI (DATA GRID) STİLLERİ --- */
 .data-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 8px;
+    flex: 1;
+    min-height: 0 !important; /* İçeriğin ezip dışarı taşmasını önleyen en kritik kod */
+    overflow-y: auto; /* Kutu çok küçülürse içeriği gizlemek yerine kaydırma çubuğu çıkarır */
+    padding-right: 5px;
 }
+
+/* Scroll (Kaydırma) çubuğunun arayüze uygun, şık görünmesi için */
+.data-grid::-webkit-scrollbar {
+    width: 6px;
+}
+.data-grid::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+/* Telemetri 3 sütun sabit */
+.telemetry-data .data-grid { grid-template-columns: repeat(3, 1fr); }
+
+/* Jetson durumu 5 sütun sabit */
+.jetson-status .data-grid { grid-template-columns: repeat(5, 1fr); }
 
 .data-item {
     background-color: rgba(0, 0, 0, 0.2);
     padding: 8px;
     border-radius: 6px;
     border-left: 3px solid var(--accent-color);
+    min-width: 0; /* İçerik taşarsa div'i büyütme */
+    overflow: hidden;
 }
 
 .data-label {
     font-size: 12px;
     color: var(--text-secondary);
     margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .data-value {
     font-size: 14px;
     font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* Camera Feed */
-/* Çift Kamera Düzeni */
+/* --- ÇİFT KAMERA DÜZENİ --- */
 .camera-container {
     display: flex;
     justify-content: center;
@@ -228,72 +279,85 @@ h3 {
     font-size: 12px;
 }
 
-/* Angle Indicator */
+
+/* --- DİNAMİK PUSULA (AÇI) STİLLERİ --- */
 .angle-display {
+    flex: 1;
+    min-height: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    max-height: 160px;
 }
 
 .compass {
     position: relative;
-    width: 110px;
-    height: 110px;
+    height: 90%; 
+    aspect-ratio: 1 / 1; 
+    max-height: 180px; 
     border-radius: 50%;
     background-color: rgba(0, 0, 0, 0.3);
     border: 2px solid rgba(255, 255, 255, 0.1);
+    
+    /* YENİ: Pusulayı bir "Konteyner" olarak tanımlıyoruz ki içindeki yazılar ona göre oranlansın */
+    container-type: inline-size;
 }
 
 .compass-marker {
     position: absolute;
-    font-size: 12px;
+    /* YENİ: Sabit 12px yerine, pusula genişliğinin %12'si kadar (12cqi) font kullan. Min 8px, Max 14px olsun. */
+    font-size: clamp(8px, 12cqi, 14px); 
     font-weight: bold;
 }
 
-.north { top: 5px; left: 50%; transform: translateX(-50%); }
-.east { right: 5px; top: 50%; transform: translateY(-50%); }
-.south { bottom: 5px; left: 50%; transform: translateX(-50%); }
-.west { left: 5px; top: 50%; transform: translateY(-50%); }
+/* YENİ: Sabit 5px yerine, kenarlara %5 oranında mesafe koyuyoruz. Pusula küçüldükçe yazılar da kenara yaklaşır. */
+.north { top: 5%; left: 50%; transform: translateX(-50%); }
+.east { right: 5%; top: 50%; transform: translateY(-50%); }
+.south { bottom: 5%; left: 50%; transform: translateX(-50%); }
+.west { left: 5%; top: 50%; transform: translateY(-50%); }
+
+/* İbrenin Sabit Piksellerini Kaldırıyoruz */
+.rectangle {
+    width: 45%; 
+    height: 4px;
+    background-color: #ff3b30;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 0 center;
+    transition: transform 0.1s ease-out;
+    z-index: 10;
+    margin-top: -2px; 
+}
+
+/* İbrenin ucundaki ok işareti */
+.rectangle::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -8px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid #ff3b30;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    transform: translateY(-50%);
+}
 
 #angle-value {
     position: absolute;
     top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 16px;
+    
+    /* YENİ: Açıyı yazan fontu da pusula boyutuna göre (16cqi) dinamik yaptık */
+    font-size: clamp(10px, 16cqi, 20px); 
     font-weight: bold;
+    
+    /* İbre yazının üstünden geçerse okunaklı kalsın diye ince bir siyah gölge ekledik */
+    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.9);
 }
 
-/* Rotating Rectangle with Arrow */
-.rectangle {
-    width: 65px;
-    height: 5px;
-    background-color: #ff3b30;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform-origin: 0 center;
-    transform: rotate(0deg);
-    transition: transform 0.1s ease-out;
-    z-index: 10;
-}
-
-.rectangle::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: -10px;
-    width: 0;
-    height: 0;
-    border-left: 10px solid #ff3b30;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    transform: translateY(-50%);
-}
-
-/* Improved Graph Styles with reduced size */
+/* --- PERFORMANS GRAFİKLERİ STİLLERİ --- */
 .graphs-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -336,7 +400,7 @@ h3 {
     display: block;
 }
 
-/* Responsive Adjustments */
+/* --- RESPONSIVE AYARLAMALAR --- */
 @media (max-width: 1200px) {
     .dashboard-container {
         flex-direction: column;
@@ -351,78 +415,11 @@ h3 {
         grid-template-columns: repeat(2, 1fr);
         width: 85%;
     }
-
-    #image {
-        width: 65%;
-    }
 }
 
 @media (max-width: 768px) {
-    .data-grid {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    }
-
     .graphs-container {
         grid-template-columns: 1fr;
         width: 90%;
     }
-
-    #image {
-        width: 75%;
-    }
-}
-
-/* --- YENİ EKLENEN RESIZE (BOYUTLANDIRMA) STİLLERİ --- */
-
-/* Esneme sınırlarını kaldır ve min-height 0 yap ki flex sıkışabilsin */
-.left-panels { flex: 35 1 0%; max-width: none; min-width: 0; gap: 0; }
-.right-panels { flex: 65 1 0%; max-width: none; min-width: 0; gap: 0; }
-.telemetry-data { flex: 30 1 0%; min-height: 0; margin: 0; }
-.camera-feed { flex: 50 1 0%; min-height: 0; margin: 0; }
-.angle-indicator { flex: 20 1 0%; min-height: 0; margin: 0; }
-.jetson-status { flex: 30 1 0%; min-height: 0; margin: 0; }
-.graphs-panel { flex: 70 1 0%; min-height: 0; margin: 0; }
-.dashboard-container { gap: 0; }
-
-/* Dikey (Sağ-Sol) Ayırıcı */
-.resizer-v {
-    width: 10px;
-    cursor: col-resize;
-    background-color: transparent;
-    transition: background-color 0.2s;
-    z-index: 10;
-}
-.resizer-v:hover, .resizer-v.dragging {
-    background-color: rgba(52, 152, 219, 0.5); /* Accent color yarı saydam */
-}
-
-/* Yatay (Alt-Üst) Ayırıcı */
-.resizer-h {
-    height: 10px;
-    cursor: row-resize;
-    background-color: transparent;
-    transition: background-color 0.2s;
-    z-index: 10;
-}
-.resizer-h:hover, .resizer-h.dragging {
-    background-color: rgba(52, 152, 219, 0.5);
-}
-
-/* Yana Kaymayı (Alt Satıra Düşmeyi) Önleme Stilleri */
-.data-grid { display: grid; gap: 8px; }
-
-/* Telemetri 3 sütun sabit */
-.telemetry-data .data-grid { grid-template-columns: repeat(3, 1fr); }
-
-/* Jetson durumu 5 sütun sabit */
-.jetson-status .data-grid { grid-template-columns: repeat(5, 1fr); }
-
-.data-item {
-    min-width: 0; /* İçerik taşarsa div'i büyütme */
-    overflow: hidden;
-}
-.data-label, .data-value {
-    white-space: nowrap; /* Yazıyı alt satıra indirme */
-    overflow: hidden;
-    text-overflow: ellipsis; /* Sığmazsa sonuna ... koy */
 }
