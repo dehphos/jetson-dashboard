@@ -3,121 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABYSS Veri Arayüzü</title>
-    <script defer src="renderer.js"></script>
+    <title>Abyss Kontrol Merkezi</title>
     <link rel="stylesheet" href="style.css">
-    <script src="chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+
     <header>
-        <h1>Jetson Veri Arayüzü</h1>
-        <div id="connection-status" class="status-indicator scanning">Taranıyor...</div>    
-    </header>
-
-    <div class="dashboard-container">
-        <div class="left-panels" id="left-panel">
-            <div class="data-panel telemetry-data" id="panel-telemetry">
-                <h2>Telemetri Verileri</h2>
-                <div class="data-grid">
-                    <div class="data-item"><div class="data-label">Zaman:</div><div id="data-output" class="data-value">Veri bekleniyor...</div></div>
-                    <div class="data-item"><div class="data-label">Tick sayacı:</div><div id="data-output2" class="data-value">Veri bekleniyor...</div></div>
-                    <div class="data-item"><div class="data-label">Yerel Zaman:</div><div id="data-output3" class="data-value">Veri bekleniyor...</div></div>
-                    <div class="data-item"><div class="data-label">Açı:</div><div id="data-output4" class="data-value">Veri bekleniyor...</div></div>
-                    <div class="data-item"><div class="data-label">Komut:</div><div id="data-output5" class="data-value">Veri bekleniyor...</div></div>
-                    <div class="data-item"><div class="data-label">Şekil:</div><div id="data-output6" class="data-value">Veri bekleniyor...</div></div>
-                    <div class="data-item"><div class="data-label">Veri 7:</div><div id="data-output7" class="data-value">Veri bekleniyor...</div></div>
-                    <div class="data-item"><div class="data-label">Veri 8:</div><div id="data-output8" class="data-value">Veri bekleniyor...</div></div>
-                    <div class="data-item"><div class="data-label">Veri 9:</div><div id="data-output9" class="data-value">Veri bekleniyor...</div></div>
-                </div>
-            </div>
-
-            <div class="resizer-h" id="resizer-tl-cam"></div>
-
-            <div class="camera-feed" id="panel-camera">
-                <h3>Kamera Akışı</h3>
-                <div class="camera-container">
-                    <div class="cam-wrapper">
-                        <img id="image1" alt="Stream 1" />
-                        <div id="fps-cam1" class="fps-counter">0 FPS</div>
-                    </div>
-                    <div class="cam-wrapper">
-                        <img id="image2" alt="Stream 2" />
-                        <div id="fps-cam2" class="fps-counter">0 FPS</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="resizer-h" id="resizer-cam-angle"></div>
-
-            <div class="angle-indicator" id="panel-angle">
-                <h3>Yön</h3>
-                <div class="angle-display">
-                    <div class="compass">
-                        <div class="compass-marker north">N</div>
-                        <div class="compass-marker east">E</div>
-                        <div class="compass-marker south">S</div>
-                        <div class="compass-marker west">W</div>
-                        <div id="angle-value">0°</div>
-                        <div class="rectangle" id="rect"></div>
-                    </div>
-                </div>
+        <div class="header-left">
+            <h1>Abyss Kontrol Merkezi</h1>
+            <div class="tabs">
+                <button class="tab-btn active" data-target="tab-dashboard">Telemetri</button>
+                <button class="tab-btn" data-target="tab-control">Kontrol (Manuel)</button>
             </div>
         </div>
+        <div id="connection-status" class="status-indicator scanning">Taranıyor...</div>
+    </header>
 
-        <div class="resizer-v" id="resizer-main"></div>
-
-        <div class="right-panels" id="right-panel">
-            <div class="data-panel jetson-status" id="panel-status">
-                <h2>Jetson Durumu</h2>
-                <div class="data-grid">
-                    <div class="data-item"><div class="data-label">CPU1:</div><div id="data-cpu1" class="data-value">Veri bekleniyor...</div></div>
-                    <div class="data-item"><div class="data-label">CPU2:</div><div id="data-cpu2" class="data-value">Veri bekleniyor...</div></div>
-                    <div class="data-item"><div class="data-label">CPU3:</div><div id="data-cpu3" class="data-value">Veri bekleniyor...</div></div>
-                    <div class="data-item"><div class="data-label">CPU4:</div><div id="data-cpu4" class="data-value">Veri bekleniyor...</div></div>
-                    <div class="data-item"><div class="data-label">CPU5:</div><div id="data-cpu5" class="data-value">Veri bekleniyor...</div></div>
-                    <div class="data-item"><div class="data-label">CPU6:</div><div id="data-cpu6" class="data-value">Veri bekleniyor...</div></div>
-                    <div class="data-item"><div class="data-label">GPU:</div><div id="data-gpu" class="data-value">Veri bekleniyor...</div></div>
-                    <div class="data-item"><div class="data-label">Sıcaklık:</div><div id="data-temp" class="data-value">Veri bekleniyor...</div></div>
-                    <div class="data-item"><div class="data-label">Güç:</div><div id="data-pow" class="data-value">Veri bekleniyor...</div></div>
+    <div id="tab-dashboard" class="tab-content active">
+        <div class="dashboard-container">
+            <div class="left-panels" id="left-panel">
+                <div class="data-panel telemetry-data" id="panel-telemetry">
+                    <h2>Telemetri</h2>
+                    <div class="data-grid">
+                        <div class="data-item"><div class="data-label">Zaman (Epoch)</div><div class="data-value" id="data-output">N/A</div></div>
+                        <div class="data-item"><div class="data-label">A Değeri</div><div class="data-value" id="data-output2">N/A</div></div>
+                        <div class="data-item"><div class="data-label">Sistem Saati</div><div class="data-value" id="data-output3">N/A</div></div>
+                        <div class="data-item"><div class="data-label">Son Komut</div><div class="data-value" id="data-output5">N/A</div></div>
+                        <div class="data-item"><div class="data-label">Şekil</div><div class="data-value" id="data-output6">N/A</div></div>
+                        <div class="data-item"><div class="data-label">Ham Açı</div><div class="data-value" id="data-output4">N/A</div></div>
+                    </div>
+                </div>
+                
+                <div class="resizer-h" id="resizer-tl-cam"></div>
+                
+                <div class="camera-feed" id="panel-camera" style="padding:0; background:transparent; box-shadow:none;">
+                    <div id="shared-camera-container" class="camera-container">
+                        <div class="cam-wrapper">
+                            <img id="image1" src="placeholder1.jpg" alt="Kamera 1">
+                            <div id="fps-cam1" class="fps-counter">0 FPS</div>
+                        </div>
+                        <div class="cam-wrapper">
+                            <img id="image2" src="placeholder1.jpg" alt="Kamera 2">
+                            <div id="fps-cam2" class="fps-counter">0 FPS</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="resizer-h" id="resizer-cam-angle"></div>
+                
+                <div class="data-panel angle-indicator" id="panel-angle">
+                    <h2>Yönelim (Heading)</h2>
+                    <div class="angle-display">
+                        <div class="compass">
+                            <div class="compass-marker north">N</div>
+                            <div class="compass-marker east">E</div>
+                            <div class="compass-marker south">S</div>
+                            <div class="compass-marker west">W</div>
+                            <div class="rectangle" id="rect"></div>
+                            <div id="angle-value">0.0°</div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
+            <div class="resizer-v" id="resizer-main"></div>
+            
+            <div class="right-panels" id="right-panel">
+                <div class="data-panel jetson-status" id="panel-status" style="flex: 20 1 0%;">
+                    <h2>Jetson Orin Durumu</h2>
+                    <div class="data-grid">
+                        <div class="data-item"><div class="data-label">CPU 1</div><div class="data-value" id="data-cpu1">0%</div></div>
+                        <div class="data-item"><div class="data-label">CPU 2</div><div class="data-value" id="data-cpu2">0%</div></div>
+                        <div class="data-item"><div class="data-label">CPU 3</div><div class="data-value" id="data-cpu3">0%</div></div>
+                        <div class="data-item"><div class="data-label">CPU 4</div><div class="data-value" id="data-cpu4">0%</div></div>
+                        <div class="data-item"><div class="data-label">CPU 5</div><div class="data-value" id="data-cpu5">0%</div></div>
+                        <div class="data-item"><div class="data-label">CPU 6</div><div class="data-value" id="data-cpu6">0%</div></div>
+                        <div class="data-item" style="border-left-color: var(--gpu-color);"><div class="data-label">GPU</div><div class="data-value" id="data-gpu">0%</div></div>
+                        <div class="data-item" style="border-left-color: var(--temp-color);"><div class="data-label">Sıcaklık</div><div class="data-value" id="data-temp">0°C</div></div>
+                        <div class="data-item" style="border-left-color: var(--power-color);"><div class="data-label">Güç</div><div class="data-value" id="data-pow">0W</div></div>
+                    </div>
+                </div>
 
-            <div class="resizer-h" id="resizer-stat-graph"></div>
+                <div class="resizer-h" id="resizer-stat-graph"></div>
 
-            <div class="graphs-panel" id="panel-graph">
-                <h3>Performans Değerleri</h3>
-                <div class="graphs-container">
-                    <div class="graph-item"><div class="graph-label">İşlemci kullanımı</div><div class="graph-container"><canvas id="cpu-graph" class="line-graph"></canvas></div></div>
-                    <div class="graph-item"><div class="graph-label">Grafik kartı kullanımı</div><div class="graph-container"><canvas id="gpu-graph" class="line-graph"></canvas></div></div>
-                    <div class="graph-item"><div class="graph-label">Sıcaklık</div><div class="graph-container"><canvas id="temp-graph" class="line-graph"></canvas></div></div>
-                    <div class="graph-item"><div class="graph-label">Güç Kullanımı</div><div class="graph-container"><canvas id="power-graph" class="line-graph"></canvas></div></div>
+                <div class="data-panel graphs-panel" id="panel-graph" style="flex: 80 1 0%;">
+                    <h2>Performans Grafikleri</h2>
+                    <div class="graphs-container">
+                        <div class="graph-item">
+                            <div class="graph-label">Ortalama CPU Kullanımı (%)</div>
+                            <div class="graph-container"><canvas id="cpu-graph" class="line-graph"></canvas></div>
+                        </div>
+                        <div class="graph-item">
+                            <div class="graph-label">GPU Kullanımı (%)</div>
+                            <div class="graph-container"><canvas id="gpu-graph" class="line-graph"></canvas></div>
+                        </div>
+                        <div class="graph-item">
+                            <div class="graph-label">Sıcaklık (°C)</div>
+                            <div class="graph-container"><canvas id="temp-graph" class="line-graph"></canvas></div>
+                        </div>
+                        <div class="graph-item">
+                            <div class="graph-label">Güç Tüketimi (%)</div>
+                            <div class="graph-container"><canvas id="power-graph" class="line-graph"></canvas></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        let lastFrameTime = 0;
-        let frameCount = 0;
+    <div id="tab-control" class="tab-content">
+        <div class="control-layout">
+            <div id="control-camera-area" class="control-camera-area" style="flex: 40 1 0%;">
+            </div>
+            <div class="resizer-h" id="resizer-control"></div>
+            <div class="joystick-panel" id="control-joystick-area" style="flex: 60 1 0%;">
+                <h2>ROV Kontrol Matrisi</h2>
+                <div class="control-grid">
+                    <div class="axis-group">
+                        <h3>Heave (Derinlik)</h3>
+                        <button class="ctrl-btn" onmousedown="updateControl('heave', 1)" onmouseup="updateControl('heave', 0)">Yüksel (E)</button>
+                        <button class="ctrl-btn" onmousedown="updateControl('heave', -1)" onmouseup="updateControl('heave', 0)">Dal (Q)</button>
+                    </div>
+                    <div class="axis-group">
+                        <h3>Surge (İleri/Geri)</h3>
+                        <button class="ctrl-btn" onmousedown="updateControl('surge', 1)" onmouseup="updateControl('surge', 0)">İleri (W)</button>
+                        <button class="ctrl-btn" onmousedown="updateControl('surge', -1)" onmouseup="updateControl('surge', 0)">Geri (S)</button>
+                    </div>
+                    <div class="axis-group">
+                        <h3>Sway (Yanal)</h3>
+                        <button class="ctrl-btn" onmousedown="updateControl('sway', -1)" onmouseup="updateControl('sway', 0)">Sola Git (A)</button>
+                        <button class="ctrl-btn" onmousedown="updateControl('sway', 1)" onmouseup="updateControl('sway', 0)">Sağa Git (D)</button>
+                    </div>
+                    <div class="axis-group">
+                        <h3>Yaw (Dönüş)</h3>
+                        <button class="ctrl-btn" onmousedown="updateControl('yaw', -1)" onmouseup="updateControl('yaw', 0)">Sola Dön (←)</button>
+                        <button class="ctrl-btn" onmousedown="updateControl('yaw', 1)" onmouseup="updateControl('yaw', 0)">Sağa Dön (→)</button>
+                    </div>
+                    <div class="axis-group">
+                        <h3>Roll (Yatma)</h3>
+                        <button class="ctrl-btn" onmousedown="updateControl('roll', -1)" onmouseup="updateControl('roll', 0)">Sola Yat</button>
+                        <button class="ctrl-btn" onmousedown="updateControl('roll', 1)" onmouseup="updateControl('roll', 0)">Sağa Yat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        function updateAngle(angle) {
-            const rect = document.getElementById("rect");
-            rect.style.transform = `rotate(${angle + 90}deg)`;
-            document.getElementById("angle-value").textContent = `${angle.toFixed(1)}°`;
-        }
-
-        function updateFPS() {
-            const now = performance.now();
-            frameCount++;
-
-            if (now - lastFrameTime >= 1000) {
-                document.getElementById("fps-counter").textContent = `${frameCount} FPS`;
-                frameCount = 0;
-                lastFrameTime = now;
-            }
-        }
-
-        updateFPS();
-    </script>
+    <script src="renderer.js"></script>
 </body>
 </html>

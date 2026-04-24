@@ -2,8 +2,9 @@ import { gateway4async } from "default-gateway";
 import Evilscan from "evilscan";
 import { ipcMain } from "electron";
 import fetch from "node-fetch";
-import pako from "pako"; // Import pako for decompression
-import Buffer from "buffer"; // To work with binary data
+import pako from "pako"; 
+import Buffer from "buffer";
+import dgram from "dgram";
 
 var gateway = {};
 
@@ -130,7 +131,6 @@ async function fetchData(url, event, ip) {
     }
 }
 
-// Handle IPC request from the renderer to start scanning
 ipcMain.handle("start-scanning", async (event) => {
     try {
         var jetsonIP = await scanNetwork();
@@ -163,5 +163,27 @@ ipcMain.handle("start-scanning", async (event) => {
         
     } catch (error) {
         console.error(error);
+    }
+});
+
+
+// UDP İstemcisini oluştur
+const udpClient = dgram.createSocket('udp4');
+const KONTROL_PORTU = 3170; 
+
+
+ipcMain.on("send-control", (event, controlData) => {
+    if (jetsonIP) {
+        // Gelen JSON objesini string'e çevir ve Buffer'a al
+        const message = Buffer.Buffer.from(JSON.stringify(controlData));
+        
+        // UDP ile veriyi Jetson'a gönder
+        udpClient.send(message, 0, message.length, KONTROL_PORTU, jetsonIP, (err) => {
+            if (err) {
+                console.error("UDP Gönderim Hatası:", err);
+            }
+        });
+    } else {
+        console.log("Jetson IP'si henüz bulunamadı, komut gönderilemiyor.");
     }
 });

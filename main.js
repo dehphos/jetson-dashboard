@@ -10,13 +10,11 @@ let win;
 
 app.whenReady().then(() => {
     win = new BrowserWindow({
-        // width: 1920,
-        // height: 1080,
         show: false,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
             contextIsolation: true,
-            webSecurity: false    // allow loading MJPEG from http://
+            webSecurity: false    
         }
     });
     win.maximize();

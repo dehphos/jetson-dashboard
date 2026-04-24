@@ -27,7 +27,7 @@
 html, body {
     height: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow: hidden; /* Ensure both html and body have overflow hidden */
+    overflow: hidden; 
 }
 
 body {
@@ -35,7 +35,7 @@ body {
     color: var(--text-primary);
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Use viewport height instead */
+    height: 100vh;
     padding: 10px;
 }
 
@@ -49,25 +49,10 @@ header {
     margin-bottom: 10px;
 }
 
-h1, h2, h3 {
-    font-weight: 500;
-}
-
-h1 {
-    font-size: 24px;
-}
-
-h2 {
-    font-size: 18px;
-    margin-bottom: 8px;
-    color: var(--accent-color);
-}
-
-h3 {
-    font-size: 16px;
-    margin-bottom: 6px;
-    color: var(--text-secondary);
-}
+h1, h2, h3 { font-weight: 500; }
+h1 { font-size: 24px; }
+h2 { font-size: 18px; margin-bottom: 8px; color: var(--accent-color); }
+h3 { font-size: 16px; margin-bottom: 6px; color: var(--text-secondary); }
 
 .status-indicator {
     padding: 6px 12px;
@@ -76,18 +61,9 @@ h3 {
     font-weight: 500;
 }
 
-.status-indicator.scanning {
-    background-color: var(--warning-color);
-    animation: pulse 1.5s infinite;
-}
-
-.status-indicator.connected {
-    background-color: var(--success-color);
-}
-
-.status-indicator.error {
-    background-color: var(--alert-color);
-}
+.status-indicator.scanning { background-color: var(--warning-color); animation: pulse 1.5s infinite; }
+.status-indicator.connected { background-color: var(--success-color); }
+.status-indicator.error { background-color: var(--alert-color); }
 
 @keyframes pulse {
     0% { opacity: 1; }
@@ -99,29 +75,29 @@ h3 {
 .dashboard-container {
     display: flex;
     flex: 1;
-    height: calc(100% - 50px); /* Adjusted height to account for header */
-    overflow: hidden; /* Changed from auto to hidden */
-    gap: 0; /* Resize boşlukları ayırıcılar tarafından sağlanacak */
+    height: calc(100% - 50px);
+    overflow: hidden; 
+    gap: 0; 
 }
 
 /* Left & Right panel containers */
-.left-panels { 
-    display: flex; 
-    flex-direction: column; 
-    flex: 35 1 0%; 
-    max-width: none; 
-    min-width: 0; 
-    gap: 0; 
+.left-panels {
+    display: flex;
+    flex-direction: column;
+    flex: 35 1 0%;
+    max-width: none;
+    min-width: 0;
+    gap: 0;
     overflow: hidden;
 }
 
-.right-panels { 
-    display: flex; 
-    flex-direction: column; 
-    flex: 65 1 0%; 
-    max-width: none; 
-    min-width: 0; 
-    gap: 0; 
+.right-panels {
+    display: flex;
+    flex-direction: column;
+    flex: 65 1 0%;
+    max-width: none;
+    min-width: 0;
+    gap: 0;
     overflow: hidden;
 }
 
@@ -129,7 +105,7 @@ h3 {
 .data-panel, .angle-indicator {
     display: flex;
     flex-direction: column;
-    overflow: hidden; 
+    overflow: hidden;
 }
 
 .data-panel {
@@ -151,30 +127,14 @@ h3 {
     border-radius: var(--panel-radius);
     padding: 10px;
     box-shadow: var(--panel-shadow);
-    overflow: hidden; 
+    overflow: hidden;
 }
 
-.camera-feed {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+.camera-feed { position: relative; display: flex; flex-direction: column; align-items: center; }
+.graphs-panel { display: flex; flex-direction: column; }
+.graphs-container { height: 90%; margin: 0 auto; width: 95%; }
 
-.graphs-panel {
-    display: flex;
-    flex-direction: column;
-}
-
-.graphs-container {
-    height: 90%; 
-    margin: 0 auto;
-    width: 95%; 
-}
-
-
-/* --- YENİ EKLENEN RESIZE (BOYUTLANDIRMA) AYIRICILARI --- */
-/* Dikey (Sağ-Sol) Ayırıcı */
+/* --- RESIZE (BOYUTLANDIRMA) AYIRICILARI --- */
 .resizer-v {
     width: 10px;
     cursor: col-resize;
@@ -182,11 +142,8 @@ h3 {
     transition: background-color 0.2s;
     z-index: 10;
 }
-.resizer-v:hover, .resizer-v.dragging {
-    background-color: rgba(52, 152, 219, 0.5); /* Accent color yarı saydam */
-}
+.resizer-v:hover, .resizer-v.dragging { background-color: rgba(52, 152, 219, 0.5); }
 
-/* Yatay (Alt-Üst) Ayırıcı */
 .resizer-h {
     height: 10px;
     cursor: row-resize;
@@ -194,33 +151,22 @@ h3 {
     transition: background-color 0.2s;
     z-index: 10;
 }
-.resizer-h:hover, .resizer-h.dragging {
-    background-color: rgba(52, 152, 219, 0.5);
-}
+.resizer-h:hover, .resizer-h.dragging { background-color: rgba(52, 152, 219, 0.5); }
 
-/* --- VERİ IZGARASI (DATA GRID) STİLLERİ --- */
+/* --- VERİ IZGARASI (DATA GRID) --- */
 .data-grid {
     display: grid;
     gap: 8px;
     flex: 1;
-    min-height: 0 !important; /* İçeriğin ezip dışarı taşmasını önleyen en kritik kod */
-    overflow-y: auto; /* Kutu çok küçülürse içeriği gizlemek yerine kaydırma çubuğu çıkarır */
+    min-height: 0 !important; 
+    overflow-y: auto; 
     padding-right: 5px;
 }
 
-/* Scroll (Kaydırma) çubuğunun arayüze uygun, şık görünmesi için */
-.data-grid::-webkit-scrollbar {
-    width: 6px;
-}
-.data-grid::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-}
+.data-grid::-webkit-scrollbar { width: 6px; }
+.data-grid::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
 
-/* Telemetri 3 sütun sabit */
 .telemetry-data .data-grid { grid-template-columns: repeat(3, 1fr); }
-
-/* Jetson durumu 5 sütun sabit */
 .jetson-status .data-grid { grid-template-columns: repeat(5, 1fr); }
 
 .data-item {
@@ -228,7 +174,7 @@ h3 {
     padding: 8px;
     border-radius: 6px;
     border-left: 3px solid var(--accent-color);
-    min-width: 0; /* İçerik taşarsa div'i büyütme */
+    min-width: 0; 
     overflow: hidden;
 }
 
@@ -249,30 +195,36 @@ h3 {
     text-overflow: ellipsis;
 }
 
-/* --- ÇİFT KAMERA VE FPS DÜZENİ --- */
+/* --- ÇİFT KAMERA VE FPS --- */
 .camera-container {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
-    width: 95%;
-    max-height: 85%;
-    margin: 0 auto;
+    width: 100%;
+    height: 100%; /* Yüksekliği %100'e zorluyoruz */
+    max-height: 100%;
     flex: 1;
+    min-height: 0; /* Taşırmayı önleyen sihirli kod */
 }
 
-.cam-wrapper {
-    position: relative;
-    width: 48%; 
-    height: 100%;
-    display: flex;
-    justify-content: center;
+.cam-wrapper { 
+    position: relative; 
+    width: 50%; 
+    height: 100%; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    min-height: 0;
+    overflow: hidden; /* Resimlerin wrapper'ı aşmasını engelle */
 }
 
 #image1, #image2 {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain; /* Resmin en-boy oranını koruyarak sığmasını sağlar */
     border-radius: 6px;
     background-color: rgba(0, 0, 0, 0.3);
 }
@@ -288,44 +240,33 @@ h3 {
     z-index: 5;
 }
 
-/* --- DİNAMİK PUSULA (AÇI) STİLLERİ --- */
-.angle-display {
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+/* --- DİNAMİK PUSULA --- */
+.angle-display { flex: 1; min-height: 0; display: flex; justify-content: center; align-items: center; }
 
 .compass {
     position: relative;
-    height: 90%; 
-    aspect-ratio: 1 / 1; 
-    max-height: 180px; 
+    height: 90%;
+    aspect-ratio: 1 / 1;
+    max-height: 180px;
     border-radius: 50%;
     background-color: rgba(0, 0, 0, 0.3);
     border: 2px solid rgba(255, 255, 255, 0.1);
-    
-    /* YENİ: Pusulayı bir "Konteyner" olarak tanımlıyoruz ki içindeki yazılar ona göre oranlansın */
     container-type: inline-size;
 }
 
 .compass-marker {
     position: absolute;
-    /* YENİ: Sabit 12px yerine, pusula genişliğinin %12'si kadar (12cqi) font kullan. Min 8px, Max 14px olsun. */
-    font-size: clamp(8px, 12cqi, 14px); 
+    font-size: clamp(8px, 12cqi, 14px);
     font-weight: bold;
 }
 
-/* YENİ: Sabit 5px yerine, kenarlara %5 oranında mesafe koyuyoruz. Pusula küçüldükçe yazılar da kenara yaklaşır. */
 .north { top: 5%; left: 50%; transform: translateX(-50%); }
 .east { right: 5%; top: 50%; transform: translateY(-50%); }
 .south { bottom: 5%; left: 50%; transform: translateX(-50%); }
 .west { left: 5%; top: 50%; transform: translateY(-50%); }
 
-/* İbrenin Sabit Piksellerini Kaldırıyoruz */
 .rectangle {
-    width: 45%; 
+    width: 45%;
     height: 4px;
     background-color: #ff3b30;
     position: absolute;
@@ -334,38 +275,22 @@ h3 {
     transform-origin: 0 center;
     transition: transform 0.1s ease-out;
     z-index: 10;
-    margin-top: -2px; 
+    margin-top: -2px;
 }
 
-/* İbrenin ucundaki ok işareti */
 .rectangle::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: -8px;
-    width: 0;
-    height: 0;
-    border-left: 8px solid #ff3b30;
-    border-top: 4px solid transparent;
-    border-bottom: 4px solid transparent;
+    content: ""; position: absolute; top: 50%; right: -8px; width: 0; height: 0;
+    border-left: 8px solid #ff3b30; border-top: 4px solid transparent; border-bottom: 4px solid transparent;
     transform: translateY(-50%);
 }
 
 #angle-value {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    
-    /* YENİ: Açıyı yazan fontu da pusula boyutuna göre (16cqi) dinamik yaptık */
-    font-size: clamp(10px, 16cqi, 20px); 
-    font-weight: bold;
-    
-    /* İbre yazının üstünden geçerse okunaklı kalsın diye ince bir siyah gölge ekledik */
+    position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%);
+    font-size: clamp(10px, 16cqi, 20px); font-weight: bold;
     text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.9);
 }
 
-/* --- PERFORMANS GRAFİKLERİ STİLLERİ --- */
+/* --- PERFORMANS GRAFİKLERİ --- */
 .graphs-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -376,58 +301,113 @@ h3 {
     margin-top: 5px;
 }
 
-.graph-item {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    min-height: 0; /* Kapsayıcının içeriğe göre büyümesini engeller */
-}
-
-.graph-label {
-    font-size: 12px;
-    color: var(--text-secondary);
-    margin-bottom: 4px;
-}
+.graph-item { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.graph-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
 
 .graph-container {
-    flex: 1;
-    position: relative;
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 4px;
-    overflow: hidden;
-    height: 100%;
-    width: 100%;
+    flex: 1; position: relative; background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 4px; overflow: hidden; height: 100%; width: 100%;
 }
 
 .line-graph {
-    position: absolute; /* Grafiğin kutuyu itmesini engeller */
-    top: 0;
-    left: 0;
-    width: 100% !important;
-    height: 100% !important;
-    display: block;
+    position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; display: block;
 }
+
+/* =========================================
+   SEKME VE KONTROL STİLLERİ
+   ========================================= */
+
+.header-left { display: flex; align-items: center; gap: 30px; }
+.tabs { display: flex; gap: 10px; }
+
+.tab-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover { background-color: rgba(255, 255, 255, 0.2); color: var(--text-primary); }
+
+.tab-btn.active {
+    background-color: var(--accent-color);
+    color: #fff;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.4);
+}
+
+.tab-content { display: none; height: calc(100% - 60px); flex: 1; }
+.tab-content.active { display: flex; }
+
+/* --- KONTROL SEKME DÜZENİ --- */
+.control-layout {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    gap: 0; 
+}
+
+.control-camera-area {
+    background-color: var(--bg-panel);
+    border-radius: var(--panel-radius);
+    padding: 10px;
+    box-shadow: var(--panel-shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 0; 
+    overflow: hidden; /* Container dışına taşan her şeyi gizle/kırp */
+}
+
+.joystick-panel {
+    background-color: var(--bg-panel);
+    border-radius: var(--panel-radius);
+    padding: 20px;
+    box-shadow: var(--panel-shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 0; 
+    overflow-y: auto; 
+}
+
+.joystick-panel h2 { margin-bottom: 20px; color: var(--accent-color); }
+
+.control-grid {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 30px; width: 100%; max-width: 900px;
+}
+
+.axis-group {
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    background-color: rgba(0, 0, 0, 0.2); padding: 15px; border-radius: 10px;
+    border-top: 3px solid var(--accent-color); width: 150px;
+}
+
+.axis-group h3 { font-size: 14px; color: var(--text-secondary); margin-bottom: 5px; }
+
+.ctrl-btn {
+    background-color: #3a3a3a; color: white; border: none; padding: 12px;
+    width: 100%; border-radius: 6px; cursor: pointer; font-weight: bold;
+    user-select: none; transition: background-color 0.1s;
+}
+
+.ctrl-btn:active { background-color: var(--accent-color); transform: scale(0.98); }
+
 
 /* --- RESPONSIVE AYARLAMALAR --- */
 @media (max-width: 1200px) {
-    .dashboard-container {
-        flex-direction: column;
-    }
-
-    .left-panels, .right-panels {
-        max-width: 100%;
-        width: 100%;
-    }
-
-    .graphs-container {
-        grid-template-columns: repeat(2, 1fr);
-        width: 85%;
-    }
+    .dashboard-container { flex-direction: column; }
+    .left-panels, .right-panels { max-width: 100%; width: 100%; }
+    .graphs-container { grid-template-columns: repeat(2, 1fr); width: 85%; }
 }
 
 @media (max-width: 768px) {
-    .graphs-container {
-        grid-template-columns: 1fr;
-        width: 90%;
-    }
+    .graphs-container { grid-template-columns: 1fr; width: 90%; }
 }
